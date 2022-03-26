@@ -18,28 +18,28 @@
 
         <remap from="setpoint" to="/balance/velocity_des" />
         <remap from="state" to="/balance/velocity" />
-        <remap from="control_effort" to="/balance/angle_des" />
+        <remap from="control_effort" to="/balance/pitch_angle_des" />
     </node>
 
     <node name="controller" pkg="pid" type="controller" ns="angle_loop" output="screen" >
         <param name="node_name" value="angle_pid" />
         <param name="Kp" value="-32.0" />
         <param name="Ki" value="0.0" />
-        <param name="Kd" value="0.0" />
+        <param name="Kd" value="-10.0" />
         <param name="upper_limit" value="5" />
         <param name="lower_limit" value="-5" />
         <param name="windup_limit" value="100" />
         <param name="max_loop_frequency" value="300.0" />
         <param name="min_loop_frequency" value="300.0" />
 
-        <remap from="setpoint" to="/angle_des" />
-        <remap from="state" to="/balance/angular" />
+        <remap from="setpoint" to="/balance/pitch_angle_des" />
+        <remap from="state" to="/balance/pitch_angle" />
         <remap from="control_effort" to="/balance/base_command" />
     </node>
 
     <node name="controller" pkg="pid" type="controller" ns="pusai_loop" output="screen" >
         <param name="node_name" value="pusai_pid" />
-        <param name="Kp" value="10" />
+        <param name="Kp" value="1" />
         <param name="Ki" value="0.0" />
         <param name="Kd" value="0.0" />
         <param name="upper_limit" value="5" />
@@ -48,8 +48,8 @@
         <param name="max_loop_frequency" value="100.0" />
         <param name="min_loop_frequency" value="100.0" />
 
-        <remap from="setpoint" to="/balance/pusai_des" />
-        <remap from="state" to="/balance/pusai" />
+        <remap from="setpoint" to="/balance/yaw_angular_des" />
+        <remap from="state" to="/balance/yaw_angular" />
         <remap from="control_effort" to="/balance/diff_command" />
     </node>
 
