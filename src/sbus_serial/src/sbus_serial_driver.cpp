@@ -174,7 +174,7 @@ namespace sbus_serial
 		//
 		uart_config.c_iflag &= ~(IGNBRK | BRKINT | ICRNL | INLCR | PARMRK | INPCK
 					 | ISTRIP | IXON);
-
+		uart_config.c_iflag |= IGNPAR;//无奇偶检验位
 		//
 		// No line processing:
 		// echo off
@@ -186,20 +186,17 @@ namespace sbus_serial
 		uart_config.c_lflag &= ~(ECHO | ECHONL | ICANON | IEXTEN | ISIG);
 
 		// Turn off character processing
-		// Turn off odd parity
-		uart_config.c_cflag &= ~(CSIZE | PARODD | CBAUD);
+		uart_config.c_cflag &= ~(CSIZE | CBAUD);
 
 		// Enable parity generation on output and parity checking for input.
-		uart_config.c_cflag |= PARENB;
-		// Set two stop bits, rather than one.
-		uart_config.c_cflag |= CSTOPB;
+		// uart_config.c_cflag |= PARENB;
+
+		uart_config.c_cflag &= ~CSTOPB;//1位停止位
 		// No output processing, force 8 bit input
 		uart_config.c_cflag |= CS8;
-		// Enable a non standard baud rate
-		uart_config.c_cflag |= BOTHER;
 
-		// Set custom baud rate of 100'000 bits/s necessary for sbus
-		const speed_t spd = 100000;
+		// Set custom baud rate of 115200
+		const speed_t spd = 115200;
 		uart_config.c_ispeed = spd;
 		uart_config.c_ospeed = spd;
 
